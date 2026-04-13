@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chat App</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.chat{
+width:350px;
+height:500px;
+background:#1e293b;
+display:flex;
+flex-direction:column;
+border-radius:10px;
+overflow:hidden;
+color:white;
+}
+
+.messages{
+flex:1;
+padding:10px;
+overflow-y:auto;
+}
+
+.msg{
+margin:5px 0;
+padding:8px 12px;
+border-radius:10px;
+max-width:70%;
+font-size:14px;
+}
+
+.sent{
+background:#22c55e;
+align-self:flex-end;
+}
+
+.received{
+background:#334155;
+}
+
+.time{
+font-size:10px;
+color:#94a3b8;
+margin-top:3px;
+}
+
+.input{
+display:flex;
+}
+
+input{
+flex:1;
+padding:10px;
+border:none;
+}
+
+button{
+padding:10px;
+border:none;
+background:#22c55e;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="chat">
+
+<div class="messages" id="messages"></div>
+
+<div class="input">
+<input id="text" placeholder="Type message">
+<button onclick="send()">Send</button>
+</div>
+
+</div>
+
+<script>
+
+function getTime(){
+let now = new Date()
+let h = now.getHours()
+let m = now.getMinutes()
+m = m < 10 ? "0"+m : m
+return h + ":" + m
+}
+
+function send(){
+
+let input = document.getElementById("text")
+let text = input.value.trim()
+
+if(text === "") return
+
+addMessage(text, "sent")
+
+input.value = ""
+
+autoReply()
+
+scrollDown()
+
+}
+
+function addMessage(text, type){
+
+let div = document.createElement("div")
+div.className = "msg " + type
+
+div.innerHTML = `
+${text}
+<div class="time">${getTime()}</div>
+`
+
+document.getElementById("messages").appendChild(div)
+
+}
+
+function autoReply(){
+
+setTimeout(()=>{
+
+addMessage("Okay 👍", "received")
+scrollDown()
+
+},1000)
+
+}
+
+function scrollDown(){
+
+let box = document.getElementById("messages")
+box.scrollTop = box.scrollHeight
+
+}
+
+</script>
+
+</body>
+</html>
